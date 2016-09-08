@@ -1,0 +1,30 @@
+{
+  "name": "status-bar-component",
+  "version": "1.0.0",
+  "description": "An easy drop-in status-bar solution as a custom element",
+  "main": "status-bar.html",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nuclei/status-bar.git"
+  },
+  "keywords": [
+    "status-bar",
+    "status",
+    "statusbar",
+    "notification",
+    "polymer",
+    "web-components"
+  ],
+  "author": "Lukas Oppermann",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nuclei/status-bar/issues"
+  },
+  "homepage": "https://github.com/nuclei/status-bar#readme"
+}

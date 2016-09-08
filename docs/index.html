@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Status-bar</title>
+        <script src="webcomponents.js"></script>
+        <link rel="import" href="polymer/polymer.html">
+        <link rel="import" href="../status-bar.html">
+        <style media="screen">
+            body{
+                margin: 0;
+                font-family: sans-serif;
+                background: rgb(240,245,250);
+            }
+            nav{
+                position: relative;
+                background: rgb(30,40,50);
+                height: 50px;
+                color: white;
+                z-index: 900;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+            }
+            nav div{
+                padding: 15px;
+            }
+            article{
+                margin: 20px;
+                background: white;
+                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+                border-radius: 2px;
+                padding: 15px;
+                min-height: 600px;
+            }
+        </style>
+    </head>
+    <body>
+        <nav>
+            <div>Status-bar</div>
+        </nav>
+        <status-bar type="warning" closable="false">A notice</status-bar>
+        <status-bar type="success">A notice</status-bar>
+        <status-bar type="notice">A notice</status-bar>
+        <status-bar type="error">A notice</status-bar>
+        <article>
+            <status-bar type="notice" closable="false" icon="false" attached="false">A notice mesage</status-bar>
+        </article>
+    </body>
+</html>
