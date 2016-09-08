@@ -146,7 +146,7 @@
         },
         ready: function() {
             this.async(function(){
-                if(this.isTrue(this.icon) === true){
+                if(this.isTrue(this.icon) === true && ['notice','error','success','warning'].indexOf(this.type) > -1){
                     this.$$('use').setAttribute('xlink:href','#svg-icon--'+this.type);
                 }
             });

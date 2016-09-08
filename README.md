@@ -1,2 +1,47 @@
 # status-bar
 An easy drop-in status-bar custom element
+
+## Demo
+https://nuclei.github.io/status-bar/index.html
+
+## Installation
+
+```
+npm install --save status-bar-component
+```
+
+You need the [webcomponents-lite polyfill](https://github.com/webcomponents/webcomponentsjs) as well as [Polymer](https://github.com/Polymer/polymer).
+
+In your header add the following:
+```html
+<script src="webcomponents-lite.js"></script>
+<link rel="import" href="polymer/polymer.html">
+<link rel="import" href="status-bar.html">
+```
+
+## Usage
+Just drop the `<status-bar>` element into you html and add your text.
+
+### Type
+You can adjust the `type` attribute to toggle change it between `notice`, `success`, `warning` and `error`.
+```html
+<status-bar type="notice">A notice</status-bar>
+```
+
+### Closable
+To remove the closing `x` just add the `closable="false"` attribute.
+```html
+<status-bar type="error" closable="false">An error message.</status-bar>
+```
+
+### Icons
+By default an icon will be shown, depending on the state, to remove it add the `icon="false"` attribute.
+```html
+<status-bar type="success" icon="false">An success message.</status-bar>
+```
+
+### Detached status
+To get a status element that is not `attached` to the top, just set `attached="false"`.
+```html
+<status-bar type="warning" attached="false">An warning message.</status-bar>
+```
