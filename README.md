@@ -45,3 +45,9 @@ To get a status element that is not `attached` to the top, just set `attached="f
 ```html
 <status-bar type="warning" attached="false">An warning message.</status-bar>
 ```
+
+### Timeout (close after x ms)
+By setting the `timeout` attribute, the status bar will close itself after whatever ms you set it to.
+```html
+<status-bar type="notice" timeout="1000">This self-closes after 1 second.</status-bar>
+```
