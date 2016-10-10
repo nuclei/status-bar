@@ -1,5 +1,10 @@
+'use strict';
+
 class StatusBar extends HTMLElement {
 
+    static get is() {
+        return 'status-bar';
+    }
   // Use createdCallback instead of constructor to init an element.
   createdCallback() {
     // This element uses Shadow DOM.
