@@ -1,7 +1,11 @@
 # status-bar
-An easy drop-in status-bar custom element
+An easy drop-in status-bar vanilla custom element. No framework dependencies, small footprint.
+
+[![npm](https://img.shields.io/npm/v/status-bar-component.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/status-bar-component) [![npm](https://img.shields.io/npm/dt/status-bar-component.svg?maxAge=2592000?style=flat-square)](https://www.npmjs.com/package/status-bar-component) [![npm](https://img.shields.io/npm/l/status-bar-component.svg?maxAge=2592000?style=flat-square)](https://github.com/nuclei/status-bar/blob/master/LICENSE)
 
 ## Demo
+![status-bar](https://cloud.githubusercontent.com/assets/813754/19270901/95061f2e-8fc2-11e6-9dd0-45c5fe8a1cf3.png)
+
 https://nuclei.github.io/status-bar/index.html
 
 ## Installation

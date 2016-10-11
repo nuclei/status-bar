@@ -112,7 +112,7 @@ class StatusBar extends HTMLElement {
         <div class="status-bar__content">
             <div class="status-bar__icon">
                 <svg>
-                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-icon--success"></use>
+                    <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-icon--notice"></use>
                 </svg>
             </div>
             <p class="status-bar__text"><content></content></p>
