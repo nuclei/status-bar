@@ -10,13 +10,12 @@ https://nuclei.github.io/status-bar/index.html
 npm install --save status-bar-component
 ```
 
-You need the [webcomponents-lite polyfill](https://github.com/webcomponents/webcomponentsjs) as well as [Polymer](https://github.com/Polymer/polymer).
+You need the [webcomponents-lite polyfill](https://github.com/webcomponents/webcomponentsjs).
 
-In your header add the following:
+Load the `polyfill` and the `status-bar.js` in your html page or however you load you javascript dependencies:
 ```html
 <script src="webcomponents-lite.js"></script>
-<link rel="import" href="polymer/polymer.html">
-<link rel="import" href="status-bar.html">
+<script src="./node_modules/status-bar-component/dist/status-bar.js"></script>
 ```
 
 ## Usage
