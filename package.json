@@ -2,7 +2,7 @@
   "name": "status-bar-component",
   "version": "1.0.6",
   "description": "An easy drop-in status-bar solution as a custom element",
-  "main": "status-bar.html",
+  "main": "src/status-bar.js",
   "directories": {
     "doc": "docs"
   },
