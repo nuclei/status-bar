@@ -30,20 +30,34 @@ class StatusBar extends HTMLElement {
         .status-bar__container[type="notice"]{
             color: rgb(28,124,214);
         }
+        .status-bar__container[type="notice"] .status-bar__content{
+            box-shadow: inset 0 -1px 0 0 rgb(28,124,214),
+            0 1px 2px 0 rgba(0,0,0,.15);
+        }
         .status-bar__container[type="success"]{
             color: rgb(55,178,77);
+        }
+        .status-bar__container[type="success"] .status-bar__content{
+            box-shadow: inset 0 -1px 0 0 rgb(55,178,77),
+            0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__container[type="warning"]{
             color: rgb(250,176,5);
         }
+        .status-bar__container[type="warning"] .status-bar__content{
+            box-shadow: inset 0 -1px 0 0 rgb(250,176,5),
+            0 1px 2px 0 rgba(0,0,0,.15);
+        }
         .status-bar__container[type="error"]{
             color: rgb(240,62,62);
+        }
+        .status-bar__container[type="error"] .status-bar__content{
+            box-shadow: inset 0 -1px 0 0 rgb(240,62,62),
+            0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__content{
             position: relative;
             display: flex;
-            box-shadow: inset 0 -1px 0 0 currentColor,
-            0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__container[attached=false] .status-bar__content{
             border-radius: 5px;
@@ -199,12 +213,12 @@ class StatusBar extends HTMLElement {
      * update icon if type changes
      */
     _type(type){
+        this.type = 'notice';
         // set type
-        this.type = type;
-        // add class
         if(this.types.indexOf(type) > -1){
-            this.$container.setAttribute('type',type);
+            this.type = type;
         }
+        this.$container.setAttribute('type',this.type);
         // update icon
         this._icon(this.icon);
     }
