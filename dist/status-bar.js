@@ -54,7 +54,7 @@ var StatusBar = function (_HTMLElement) {
                 'icon': this._icon,
                 'type': this._type,
                 'timeout': this._timeout,
-                'attached': this_attached
+                'attached': this._attached
             };
             // call callback if it exists
             if (callbacks.hasOwnProperty(attrName)) {
@@ -68,7 +68,7 @@ var StatusBar = function (_HTMLElement) {
     }, {
         key: '_closeable',
         value: function _closeable(closeable) {
-            this._toggle(this.shadowRoot.querySelector('.status-bar__hide'), closeable === 'true');
+            this._toggle(this.shadowRoot.querySelector('.status-bar__hide'), 'status-hidden', closeable !== 'true');
             // add close trigger
             this.shadowRoot.querySelector('.status-bar__hide').addEventListener('click', function () {
                 this._close();
@@ -97,7 +97,7 @@ var StatusBar = function (_HTMLElement) {
             // update icon value
             this.icon = icon;
             // toggle icon
-            this._toggle(this.shadowRoot.querySelector('.status-bar__icon'), icon !== 'false');
+            this._toggle(this.shadowRoot.querySelector('.status-bar__icon'), 'status-hidden', icon === 'false');
             // set icon svg
             if (icon !== 'false' && this.types.indexOf(this.type) > -1) {
                 this.shadowRoot.querySelector('use').setAttribute('xlink:href', '#svg-icon--' + this.type);
@@ -146,16 +146,16 @@ var StatusBar = function (_HTMLElement) {
             }
         }
         /**
-         * since classList.toggle with a second param is not supporited in IE11 and below
+         * since classList.toggle with a second param is not supported in IE11 and below
          */
 
     }, {
         key: '_toggle',
-        value: function _toggle(el, condition) {
+        value: function _toggle(el, cls, condition) {
             if (condition === true) {
-                el.classList.remove('status-hidden');
+                el.classList.add(cls);
             } else {
-                el.classList.add('status-hidden');
+                el.classList.remove(cls);
             }
         }
     }], [{

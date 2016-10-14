@@ -163,7 +163,7 @@ class StatusBar extends HTMLElement {
             'icon': this._icon,
             'type': this._type,
             'timeout': this._timeout,
-            'attached': this_attached
+            'attached': this._attached
         };
         // call callback if it exists
         if(callbacks.hasOwnProperty(attrName)) {
@@ -176,7 +176,8 @@ class StatusBar extends HTMLElement {
     _closeable(closeable){
         this._toggle(
             this.shadowRoot.querySelector('.status-bar__hide'),
-            closeable === 'true'
+            'status-hidden',
+            closeable !== 'true'
         );
         // add close trigger
         this.shadowRoot.querySelector('.status-bar__hide').addEventListener('click', function(){
@@ -202,7 +203,8 @@ class StatusBar extends HTMLElement {
         // toggle icon
         this._toggle(
             this.shadowRoot.querySelector('.status-bar__icon'),
-            icon !== 'false'
+            'status-hidden',
+            icon === 'false'
         );
         // set icon svg
         if(icon !== 'false' && this.types.indexOf(this.type) > -1){
@@ -243,13 +245,13 @@ class StatusBar extends HTMLElement {
         }
     }
     /**
-     * since classList.toggle with a second param is not supporited in IE11 and below
+     * since classList.toggle with a second param is not supported in IE11 and below
      */
-    _toggle(el, condition){
+    _toggle(el, cls, condition){
         if(condition === true){
-            el.classList.remove('status-hidden');
+            el.classList.add(cls);
         }else{
-            el.classList.add('status-hidden');
+            el.classList.remove(cls);
         }
     }
 }
