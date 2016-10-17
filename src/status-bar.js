@@ -8,7 +8,7 @@ class StatusBar extends HTMLElement {
     // Use createdCallback instead of constructor to init an element.
     createdCallback() {
     // This element uses Shadow DOM.
-    this.createShadowRoot().innerHTML = `
+        this.createShadowRoot().innerHTML = `
         <style>
         .status-bar__container {
             position: relative;
@@ -16,10 +16,10 @@ class StatusBar extends HTMLElement {
             margin: 0;
             width: 100%;
             max-height: 500px;
+            color: inherit;
+            fill: currentColor;
             background-image: linear-gradient(rgba(255,255,255,.95),rgba(255,255,255,.95));
             background-color: currentColor;
-            color: rgb(55,115,215);
-            fill: currentColor;
             transition: opacity .35s ease, max-height .5s ease;
         }
         .status-bar__container.is-hidden {
@@ -28,44 +28,45 @@ class StatusBar extends HTMLElement {
             max-height: 0;
         }
         .status-bar__container[type="notice"]{
-            color: rgb(28,124,214);
+            color: var(--status-bar-notice-color, rgb(28,124,214));
         }
         .status-bar__container[type="notice"] .status-bar__content{
-            box-shadow: inset 0 -1px 0 0 rgb(28,124,214),
+            box-shadow: inset 0 -1px 0 0 var(--status-bar-notice-color, rgb(28,124,214)),
             0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__container[type="success"]{
-            color: rgb(55,178,77);
+            color: var(--status-bar-success-color, rgb(55,178,77));
         }
         .status-bar__container[type="success"] .status-bar__content{
-            box-shadow: inset 0 -1px 0 0 rgb(55,178,77),
+            box-shadow: inset 0 -1px 0 0 var(--status-bar-success-color, rgb(55,178,77));,
             0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__container[type="warning"]{
-            color: rgb(250,176,5);
+            color: var(--status-bar-warning-color, rgb(250,176,5));
         }
         .status-bar__container[type="warning"] .status-bar__content{
-            box-shadow: inset 0 -1px 0 0 rgb(250,176,5),
+            box-shadow: inset 0 -1px 0 0 var(--status-bar-warning-color, rgb(250,176,5)),
             0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__container[type="error"]{
-            color: rgb(240,62,62);
+            color: var(--status-bar-error-color, rgb(240,62,62));
         }
         .status-bar__container[type="error"] .status-bar__content{
-            box-shadow: inset 0 -1px 0 0 rgb(240,62,62),
+            box-shadow: inset 0 -1px 0 0 var(--status-bar-error-color, rgb(240,62,62)),
             0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__content{
             position: relative;
             display: flex;
         }
-        .status-bar__container[attached=false] .status-bar__content{
-            border-radius: 5px;
+        .status-bar__container.is-detached .status-bar__content{
             margin: 10px 0;
+            border-radius: var(--status-bar-detached-border-radius, 5px);
             box-shadow: inset 0 0 0 1px currentColor,
-                        0 0 2px 0 rgba(0,0,0,.25);
+                        var(--status-bar-detached-shadow, 0 0 2px 0 rgba(0,0,0,.25));
         }
         .status-bar__hide{
+            outline: none;
             position: absolute;
             right: 0;
             top: 0;
@@ -90,12 +91,12 @@ class StatusBar extends HTMLElement {
             opacity: 0;
             transition: opacity .35s ease;
         }
-        .status-bar__hide:hover:before{
+        .status-bar__hide:hover:before, .status-bar__hide:focus:before{
             transition: opacity .35s ease;
-            opacity: .1;
+            opacity: .2;
         }
         .status-bar__icon{
-            position: relative;;
+            position: relative;
             flex: 0 0 20px;
             fill: inherit;
             margin-left: 10px;
@@ -133,25 +134,25 @@ class StatusBar extends HTMLElement {
                 <div class="status-bar__hide">
                     <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"><polygon points="432.449,131.185 380.748,79.483 256,204.344 131.252,79.483 79.551,131.185 204.379,256.012 79.551,380.952 131.117,432.517 256,307.634 380.883,432.517 432.449,380.952 307.621,256.012"/></svg>
                 </div>
-                </div>
+            </div>
         </div>
         `;
+        // shim shadowDOM styling
+        if(WebComponents !== undefined && WebComponents.flags.shadow === true){
+            WebComponents.ShadowCSS.shimStyling( this.shadowRoot, 'status-bar' )
+        }
         // get elements
         this.$container = this.shadowRoot.querySelector('.status-bar__container');
+        this.$close = this.$container.querySelector('.status-bar__hide');
+        this.$icon = this.$container.querySelector('.status-bar__icon');
         // set available types
         this.types = ['notice','error','success','warning'];
-        // set attributes to values
-        this.type       = this.getAttribute('type') || 'notice';
-        this.icon       = this.getAttribute('icon') || 'true';
-        this.closeable  = this.getAttribute('closeable') || 'false';
-        this.timeout    = this.getAttribute('timeout') || null;
-        this.attached   = this.getAttribute('attached') || 'true';
         // initialize
-        this._closeable(this.closeable);
-        this._icon(this.icon);
-        this._type(this.type);
-        this._timeout(this.timeout);
-        this._attached(this.attached);
+        this._type(this.getAttribute('type'));
+        this._timeout(this.getAttribute('timeout'));
+        this._closeable();
+        this._icon();
+        this._detached();
     }
     /**
      * when an attribute is changed
@@ -163,7 +164,7 @@ class StatusBar extends HTMLElement {
             'icon': this._icon,
             'type': this._type,
             'timeout': this._timeout,
-            'attached': this._attached
+            'detached': this._detached
         };
         // call callback if it exists
         if(callbacks.hasOwnProperty(attrName)) {
@@ -173,23 +174,37 @@ class StatusBar extends HTMLElement {
     /**
      * show or hide x to close status-bar
      */
-    _closeable(closeable){
+    _closeable(){
+        var isCloseable = (this.hasAttribute('closeable') && this.getAttribute('closeable') !== 'false');
+
         this._toggle(
-            this.shadowRoot.querySelector('.status-bar__hide'),
+            this.$close,
             'status-hidden',
-            closeable !== 'true'
+            isCloseable !== true
         );
-        // add close trigger
-        this.shadowRoot.querySelector('.status-bar__hide').addEventListener('click', function(){
-            this._close();
-        }.bind(this));
+
+        if(isCloseable === true){
+            // add tab index
+            this.$close.setAttribute('tabindex',0);
+            // add close trigger
+            this.$close.addEventListener('click', function(){
+                this._close();
+            }.bind(this));
+            // hide status bar on focus x and Enter
+            this.$close.addEventListener('keydown', function(e){
+                if (e.which == 13) {
+                    this._close();
+                }
+            }.bind(this));
+        }
     };
     /**
      * close and remove the status-bar
      */
     _close(){
+        // hide item
         this.$container.classList.add('is-hidden');
-
+        // wait until animation is done and remove item
         setTimeout(function(){
             this.parentNode.removeChild(this);
         }.bind(this),1000);
@@ -197,18 +212,17 @@ class StatusBar extends HTMLElement {
     /**
      * show or hide icon before message
      */
-    _icon(icon){
-        // update icon value
-        this.icon = icon;
+    _icon(){
+        var hasIcon = (this.hasAttribute('icon') && this.getAttribute('icon') !== 'false');
         // toggle icon
         this._toggle(
-            this.shadowRoot.querySelector('.status-bar__icon'),
+            this.$icon,
             'status-hidden',
-            icon === 'false'
+            hasIcon !== true
         );
         // set icon svg
-        if(icon !== 'false' && this.types.indexOf(this.type) > -1){
-            this.shadowRoot.querySelector('use').setAttribute('xlink:href','#svg-icon--'+this.type);
+        if(hasIcon !== false && this.types.indexOf(this.type) > -1){
+            this.$icon.querySelector('use').setAttribute('xlink:href','#svg-icon--'+this.type);
         }
     };
     /**
@@ -222,7 +236,7 @@ class StatusBar extends HTMLElement {
         }
         this.$container.setAttribute('type',this.type);
         // update icon
-        this._icon(this.icon);
+        this._icon();
     }
     /**
      * remove status bar after period defined in timeout
@@ -237,12 +251,16 @@ class StatusBar extends HTMLElement {
         }
     }
     /**
-     * toggle between attached and not attached mode
+     * toggle between detached and attached mode
      */
-    _attached(attached){
-        if(attached === 'false'){
-            this.$container.setAttribute('attached','false');
-        }
+    _detached(){
+        var isDetached = (this.hasAttribute('detached') && this.getAttribute('detached') !== 'false');
+        // toggle is-detached class
+        this._toggle(
+            this.$container,
+            'is-detached',
+            isDetached
+        );
     }
     /**
      * since classList.toggle with a second param is not supported in IE11 and below

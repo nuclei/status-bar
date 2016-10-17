@@ -32,25 +32,41 @@ You can adjust the `type` attribute to toggle change it between `notice`, `succe
 ```
 
 ### Closable
-To remove the closing `x` just add the `closable="false"` attribute.
+If you want the `status-bar` to have an `x` to close it, just add the `closable` attribute.
 ```html
-<status-bar type="error" closable="false">An error message.</status-bar>
-```
-
-### Icons
-By default an icon will be shown, depending on the state, to remove it add the `icon="false"` attribute.
-```html
-<status-bar type="success" icon="false">An success message.</status-bar>
-```
-
-### Detached status
-To get a status element that is not `attached` to the top, just set `attached="false"`.
-```html
-<status-bar type="warning" attached="false">An warning message.</status-bar>
+<status-bar type="error" closable>An error message.</status-bar>
 ```
 
 ### Timeout (close after x ms)
-By setting the `timeout` attribute, the status bar will close itself after whatever ms you set it to.
+By setting the `timeout` attribute, the status bar will close itself after whatever `ms` you set it to.
 ```html
 <status-bar type="notice" timeout="1000">This self-closes after 1 second.</status-bar>
+```
+
+### Icons
+By default no icon will be shown, but you can add the `icon` attribute to use the default icons for the current `type`.
+```html
+<status-bar type="success" icon>An success message.</status-bar>
+```
+
+### Detached
+To get a `status-bar` element that is not attached to the top, add the `detached` attribute.
+```html
+<status-bar type="warning" detached>An warning message.</status-bar>
+```
+
+## Custom styling
+You can change the style of the `status-bar` by using the following `css properties`.
+
+```css
+/* color properties for types of status messages */
+--status-bar-error-color: rgb(240,62,62);
+--status-bar-success-color: rgb(55,178,77);
+--status-bar-notice-color: rgb(28,124,214);
+--status-bar-warning-color: rgb(250,176,5);
+/* properties for detached items */
+/* shadow of the item */
+--status-bar-detached-shadow: 0 0 2px 0 rgba(0,0,0,.25);
+/* border-radius */
+--status-bar-detached-border-radius: 5px;
 ```

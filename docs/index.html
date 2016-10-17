@@ -32,21 +32,38 @@
                 padding: 15px;
                 min-height: 600px;
             }
-
+            .squared{
+                --status-bar-warning-color: purple;
+                --status-bar-detached-border-radius: 0;
+                --status-bar-detached-shadow: 2px 2px 16px 0 rgba(0,0,0,.15);
+            }
+            .success{
+                --status-bar-success-color: green;
+            }
+            .notice{
+                --status-bar-notice-color: DeepSkyBlue;
+            }
+            .error{
+                --status-bar-error-color: DeepPink;
+            }
         </style>
     </head>
     <body>
         <nav>
             <div>Status-bar</div>
         </nav>
-        <status-bar type="warning" closeable="false">A notice</status-bar>
-        <status-bar type="success" closeable="true">A notice</status-bar>
-        <status-bar type="notice">A notice</status-bar>
-        <status-bar type="error">A notice</status-bar>
-        <status-bar type="wrong" closeable="true">Wrong type attribute</status-bar>
+        <status-bar type="warning" closeable="false" icon>A notice</status-bar>
+        <status-bar type="success" icon closeable>A success message with the `closeable` attribute.</status-bar>
+        <status-bar type="notice">A notice without the `icon` attribute.</status-bar>
+        <status-bar type="error" icon>A notice</status-bar>
+        <status-bar type="wrong" icon>A message with `type="wrong"`.</status-bar>
         <article>
-            <status-bar type="notice" closeable="false" icon="false" attached="false">A notice mesage</status-bar>
-            <status-bar type="notice" closeable="false" attached="false" timeout="500">A self-closing notice mesage</status-bar>
+            <status-bar type="notice" closeable icon detached>A message with the `detached` attribute.</status-bar>
+            <status-bar type="error" detached timeout="500">A self-closing notice mesage</status-bar>
+            <status-bar type="warning" closeable icon detached class="squared">A squared message.</status-bar>
+            <status-bar type="success" icon detached class="success">A success message.</status-bar>
+            <status-bar type="notice" icon detached class="notice">A success message.</status-bar>
+            <status-bar type="error" icon detached class="error">A success message.</status-bar>
         </article>
     </body>
 </html>
