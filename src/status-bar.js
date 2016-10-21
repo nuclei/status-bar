@@ -38,7 +38,7 @@ class StatusBar extends HTMLElement {
             color: var(--status-bar-success-color, rgb(55,178,77));
         }
         .status-bar__container[type="success"] .status-bar__content{
-            box-shadow: inset 0 -1px 0 0 var(--status-bar-success-color, rgb(55,178,77));,
+            box-shadow: inset 0 -1px 0 0 var(--status-bar-success-color, rgb(55,178,77)),
             0 1px 2px 0 rgba(0,0,0,.15);
         }
         .status-bar__container[type="warning"]{
