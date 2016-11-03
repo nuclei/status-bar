@@ -1,0 +1,27 @@
+{
+  "name": "status-bar",
+  "description": "An easy drop-in status-bar solution as a custom element",
+  "authors": [
+    "Lukas Oppermann"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "nuclei",
+    "ui",
+    "custom-element",
+    "vanilla-js",
+    "web-components",
+    "status-bar",
+    "status",
+    "statusbar",
+    "notification"
+  ],
+  "homepage": "https://github.com/nuclei/core",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
