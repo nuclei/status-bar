@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-class StatusBar extends HTMLElement {
+class StatusBar extends HTMLElement { // eslint-disable-line no-undef
 
-    static get is() {
-        return 'status-bar';
-    }
+  static get is () {
+    return 'status-bar'
+  }
     // Use createdCallback instead of constructor to init an element.
-    createdCallback() {
+  createdCallback () {
     // This element uses Shadow DOM.
-        this.createShadowRoot().innerHTML = `
+    this.createShadowRoot().innerHTML = `
         <style>
         .status-bar__container {
             position: relative;
@@ -136,142 +136,142 @@ class StatusBar extends HTMLElement {
                 </div>
             </div>
         </div>
-        `;
+        `
         // shim shadowDOM styling
-        if(WebComponents !== undefined && WebComponents.flags.shadow === true){
-            WebComponents.ShadowCSS.shimStyling( this.shadowRoot, 'status-bar' )
-        }
-        // get elements
-        this.$container = this.shadowRoot.querySelector('.status-bar__container');
-        this.$close = this.$container.querySelector('.status-bar__hide');
-        this.$icon = this.$container.querySelector('.status-bar__icon');
-        // set available types
-        this.types = ['notice','error','success','warning'];
-        // initialize
-        this._type(this.getAttribute('type'));
-        this._timeout(this.getAttribute('timeout'));
-        this._closeable();
-        this._icon();
-        this._detached();
+    if (WebComponents !== undefined && WebComponents.flags.shadow === true) { // eslint-disable-line no-undef
+      WebComponents.ShadowCSS.shimStyling(this.shadowRoot, 'status-bar') // eslint-disable-line no-undef
     }
+        // get elements
+    this.$container = this.shadowRoot.querySelector('.status-bar__container')
+    this.$close = this.$container.querySelector('.status-bar__hide')
+    this.$icon = this.$container.querySelector('.status-bar__icon')
+        // set available types
+    this.types = ['notice', 'error', 'success', 'warning']
+        // initialize
+    this._type(this.getAttribute('type'))
+    this._timeout(this.getAttribute('timeout'))
+    this._closeable()
+    this._icon()
+    this._detached()
+  }
     /**
      * when an attribute is changed
      */
-    attributeChangedCallback(attrName, oldVal, newVal) {
+  attributeChangedCallback (attrName, oldVal, newVal) {
         // define callbacks
-        var callbacks = {
-            'closeable': this._closeable,
-            'icon': this._icon,
-            'type': this._type,
-            'timeout': this._timeout,
-            'detached': this._detached
-        };
-        // call callback if it exists
-        if(callbacks.hasOwnProperty(attrName)) {
-            callbacks[attrName].call(this, newVal, oldVal);
-        }
+    var callbacks = {
+      'closeable': this._closeable,
+      'icon': this._icon,
+      'type': this._type,
+      'timeout': this._timeout,
+      'detached': this._detached
     }
+        // call callback if it exists
+    if (callbacks.hasOwnProperty(attrName)) {
+      callbacks[attrName].call(this, newVal, oldVal)
+    }
+  }
     /**
      * show or hide x to close status-bar
      */
-    _closeable(){
-        var isCloseable = (this.hasAttribute('closeable') && this.getAttribute('closeable') !== 'false');
+  _closeable () {
+    var isCloseable = (this.hasAttribute('closeable') && this.getAttribute('closeable') !== 'false')
 
-        this._toggle(
+    this._toggle(
             this.$close,
             'status-hidden',
             isCloseable !== true
-        );
+        )
 
-        if(isCloseable === true){
+    if (isCloseable === true) {
             // add tab index
-            this.$close.setAttribute('tabindex',0);
+      this.$close.setAttribute('tabindex', 0)
             // add close trigger
-            this.$close.addEventListener('click', function(){
-                this._close();
-            }.bind(this));
+      this.$close.addEventListener('click', function () {
+        this._close()
+      }.bind(this))
             // hide status bar on focus x and Enter
-            this.$close.addEventListener('keydown', function(e){
-                if (e.which == 13) {
-                    this._close();
-                }
-            }.bind(this));
+      this.$close.addEventListener('keydown', function (e) {
+        if (e.which === 13) {
+          this._close()
         }
-    };
+      }.bind(this))
+    }
+  };
     /**
      * close and remove the status-bar
      */
-    _close(){
+  _close () {
         // hide item
-        this.$container.classList.add('is-hidden');
+    this.$container.classList.add('is-hidden')
         // wait until animation is done and remove item
-        setTimeout(function(){
-            this.parentNode.removeChild(this);
-        }.bind(this),1000);
-    }
+    setTimeout(function () {
+      this.parentNode.removeChild(this)
+    }.bind(this), 1000)
+  }
     /**
      * show or hide icon before message
      */
-    _icon(){
-        var hasIcon = (this.hasAttribute('icon') && this.getAttribute('icon') !== 'false');
+  _icon () {
+    var hasIcon = (this.hasAttribute('icon') && this.getAttribute('icon') !== 'false')
         // toggle icon
-        this._toggle(
+    this._toggle(
             this.$icon,
             'status-hidden',
             hasIcon !== true
-        );
+        )
         // set icon svg
-        if(hasIcon !== false && this.types.indexOf(this.type) > -1){
-            this.$icon.querySelector('use').setAttribute('xlink:href','#svg-icon--'+this.type);
-        }
-    };
+    if (hasIcon !== false && this.types.indexOf(this.type) > -1) {
+      this.$icon.querySelector('use').setAttribute('xlink:href', '#svg-icon--' + this.type)
+    }
+  };
     /**
      * update icon if type changes
      */
-    _type(type){
-        this.type = 'notice';
+  _type (type) {
+    this.type = 'notice'
         // set type
-        if(this.types.indexOf(type) > -1){
-            this.type = type;
-        }
-        this.$container.setAttribute('type',this.type);
-        // update icon
-        this._icon();
+    if (this.types.indexOf(type) > -1) {
+      this.type = type
     }
+    this.$container.setAttribute('type', this.type)
+        // update icon
+    this._icon()
+  }
     /**
      * remove status bar after period defined in timeout
      */
-    _timeout(timeout){
+  _timeout (timeout) {
         // set timout to number or null
-        timeout = Number.isInteger(parseInt(timeout)) ? parseInt(timeout) : null;
-        if(timeout !== null){
-            setTimeout(function(){
-                this._close();
-            }.bind(this), timeout);
-        }
+    timeout = Number.isInteger(parseInt(timeout)) ? parseInt(timeout) : null
+    if (timeout !== null) {
+      setTimeout(function () {
+        this._close()
+      }.bind(this), timeout)
     }
+  }
     /**
      * toggle between detached and attached mode
      */
-    _detached(){
-        var isDetached = (this.hasAttribute('detached') && this.getAttribute('detached') !== 'false');
+  _detached () {
+    var isDetached = (this.hasAttribute('detached') && this.getAttribute('detached') !== 'false')
         // toggle is-detached class
-        this._toggle(
+    this._toggle(
             this.$container,
             'is-detached',
             isDetached
-        );
-    }
+        )
+  }
     /**
      * since classList.toggle with a second param is not supported in IE11 and below
      */
-    _toggle(el, cls, condition){
-        if(condition === true){
-            el.classList.add(cls);
-        }else{
-            el.classList.remove(cls);
-        }
+  _toggle (el, cls, condition) {
+    if (condition === true) {
+      el.classList.add(cls)
+    } else {
+      el.classList.remove(cls)
     }
+  }
 }
 
-document.registerElement('status-bar', StatusBar);
+document.registerElement('status-bar', StatusBar)

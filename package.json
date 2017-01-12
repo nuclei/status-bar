@@ -7,7 +7,8 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "./node_modules/web-component-tester/bin/wct"
+    "test": "./node_modules/web-component-tester/bin/wct && snazzy 'src/*.js'",
+    "travis": "snazzy 'src/*.js'"
   },
   "repository": {
     "type": "git",
@@ -31,6 +32,8 @@
     "gulp": "^3.9.1",
     "gulp-babel": "^6.1.2",
     "gulp-sourcemaps": "^1.6.0",
-    "web-component-tester": "^4.3.5"
+    "snazzy": "^6.0.0",
+    "standard": "^8.6.0",
+    "web-component-tester": "^5.0.0"
   }
 }
