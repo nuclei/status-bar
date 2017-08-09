@@ -1,14 +1,10 @@
-(function () {
-'use strict';
+/* global HTMLElement */
+'use strict'
 
-const makeTemplate = function (strings) {
-    let html = strings[strings.length - 1];
-    let template = document.createElement('template');
-    template.innerHTML = html;
-    return template;
-};
+import { makeTemplate } from '../node_modules/make-template/dist/makeTemplate.js'
+declare const ShadyCSS // eslint-disable-line no-unused-vars
 
-let template = makeTemplate `<style>
+let template = makeTemplate`<style>
 .status-bar__container {
   position: relative;
   z-index: 800;
@@ -135,102 +131,154 @@ let template = makeTemplate `<style>
             <svg xmlns="http://www.w3.org/2000/svg" viewbox="0 0 512 512"><polygon points="432.449,131.185 380.748,79.483 256,204.344 131.252,79.483 79.551,131.185 204.379,256.012 79.551,380.952 131.117,432.517 256,307.634 380.883,432.517 432.449,380.952 307.621,256.012"/></svg>
         </div>
     </div>
-</div>`;
-class StatusBar extends HTMLElement {
-    constructor() {
-        super();
-        this.types = ['notice', 'error', 'success', 'warning'];
-        this._container = null;
-        this._closeIcon = null;
-        this._icon = null;
-        this._type = 'notice';
-        let shadowRoot = this.attachShadow({ mode: 'open' });
-        if (typeof ShadyCSS !== 'undefined') {
-            ShadyCSS.prepareTemplate(template, 'status-bar');
-            ShadyCSS.styleElement(this);
-        }
-        shadowRoot.appendChild(document.importNode(template.content, true));
-        this._container = this.shadowRoot.querySelector('.status-bar__container');
-        this._closeIcon = this._container.querySelector('.status-bar__hide');
-        this._icon = this._container.querySelector('.status-bar__icon');
-    }
-    static get observedAttributes() {
-        return ['closeable', 'icon', 'type', 'timeout', 'detached'];
-    }
-    attributeChangedCallback(attrName, oldVal, newVal) {
-        this[attrName] = newVal;
-    }
-    connectedCallback() {
-    }
-    set closeable(closeable) {
-        if (closeable === null || closeable === 'false') {
-            this._closeIcon.classList.add('status-hidden');
-            return;
-        }
-        this._closeIcon.classList.remove('status-hidden');
-        this._closeIcon.setAttribute('tabindex', 0);
-        this._closeIcon.addEventListener('click', function () {
-            this._close();
-        }.bind(this));
-        this._closeIcon.addEventListener('keydown', function (e) {
-            if (e.which === 13) {
-                this._close();
-            }
-        }.bind(this));
-    }
-    _close() {
-        this._container.classList.add('is-hidden');
-        setTimeout(function () {
-            this.parentNode.removeChild(this);
-        }.bind(this), 1000);
-    }
-    set icon(icon) {
-        if (icon === null || icon === 'false') {
-            this._icon.classList.add('status-hidden');
-        }
-        else {
-            this._icon.classList.remove('status-hidden');
-        }
-        this._setIconType(this._type);
-    }
-    _setIconType(type) {
-        if (this.types.indexOf(type) > -1) {
-            this._icon.querySelector('use').setAttribute('xlink:href', '#svg-icon--' + type);
-        }
-    }
-    set type(type) {
-        if (this.types.indexOf(type) > -1) {
-            this._type = type;
-        }
-        this._container.setAttribute('type', this._type);
-        this._setIconType(this._type);
-    }
-    set timeout(timeout) {
-        timeout = parseInt(timeout);
-        if (timeout % 1 !== 0)
-            return;
-        setTimeout(function () {
-            this._close();
-        }.bind(this), timeout);
-    }
-    set detached(detached) {
-        if (detached === null || detached === 'false') {
-            this._container.classList.remove('is-detached');
-        }
-        else {
-            this._container.classList.add('is-detached');
-        }
-    }
-    _toggle(el, cls, condition) {
-        if (condition === true) {
-            el.classList.add(cls);
-        }
-        else {
-            el.classList.remove(cls);
-        }
-    }
-}
-window.customElements.define('status-bar', StatusBar);
+</div>`
 
-}());
-//# sourceMappingURL=status-bar.js.map
+class StatusBar extends HTMLElement { // eslint-disable-line no-unused-vars
+  /* Typescript: declare variables */
+  private types: string[] = ['notice', 'error', 'success', 'warning'] // eslint-disable-line no-undef
+  private _container: any = null // eslint-disable-line no-undef
+  private _closeIcon: any = null // eslint-disable-line no-undef
+  private _icon: any = null // eslint-disable-line no-undef
+  private _type: string = 'notice' // eslint-disable-line no-undef
+
+  constructor () {
+    // If you define a constructor, always call super() first!
+    // This is specific to CE and required by the spec.
+    super()
+    // create shadowRoot
+    let shadowRoot = this.attachShadow({mode: 'open'})
+    // check if polyfill is used
+    if (typeof ShadyCSS !== 'undefined') {
+      ShadyCSS.prepareTemplate(template, 'status-bar') // eslint-disable-line no-undef
+      // apply css polyfill
+      ShadyCSS.styleElement(this) // eslint-disable-line no-undef
+    }
+    // add content to shadowRoot
+    shadowRoot.appendChild(document.importNode(template.content, true))
+    // initiaize variables
+    this._container = this.shadowRoot.querySelector('.status-bar__container')
+    this._closeIcon = this._container.querySelector('.status-bar__hide')
+    this._icon = this._container.querySelector('.status-bar__icon')
+  }
+  /**
+  * @method observedAttributes
+  * @description return attributes that should be watched for updates
+   */
+  static get observedAttributes () {
+    return ['closeable', 'icon', 'type', 'timeout', 'detached']
+  }
+  /**
+  * @method observedAttributes
+  * @description return attributes that should be watched for updates
+   */
+  attributeChangedCallback (attrName: string, oldVal, newVal) {
+    this[attrName] = newVal
+  }
+
+  /**
+  * @method connectedCallback
+  * @description When element is added to DOM
+   */
+  connectedCallback () {
+
+  }
+
+  /**
+   * show or hide x to close status-bar
+   */
+  set closeable (closeable: any) {
+    if (closeable === null || closeable === 'false') {
+      this._closeIcon.classList.add('status-hidden')
+      // return to shortcurcut
+      return
+    }
+    // closable is true
+    this._closeIcon.classList.remove('status-hidden')
+    // add tab index
+    this._closeIcon.setAttribute('tabindex', 0)
+    // add close trigger
+    this._closeIcon.addEventListener('click', function () {
+      this._close()
+    }.bind(this))
+    // hide status bar on focus x and Enter
+    this._closeIcon.addEventListener('keydown', function (e) {
+      if (e.which === 13) {
+        this._close()
+      }
+    }.bind(this))
+  }
+    /**
+     * close and remove the status-bar
+     */
+  public _close () {
+        // hide item
+    this._container.classList.add('is-hidden')
+        // wait until animation is done and remove item
+    setTimeout(function () {
+      this.parentNode.removeChild(this)
+    }.bind(this), 1000)
+  }
+    /**
+     * show or hide icon before message
+     */
+  set icon (icon: any) {
+    if (icon === null || icon === 'false') {
+      this._icon.classList.add('status-hidden')
+    } else {
+      this._icon.classList.remove('status-hidden')
+    }
+    this._setIconType(this._type)
+  }
+
+  private _setIconType (type: string) {
+    // set icon svg
+    if (this.types.indexOf(type) > -1) {
+      this._icon.querySelector('use').setAttribute('xlink:href', '#svg-icon--' + type)
+    }
+  }
+  /**
+   * update icon if type changes
+   */
+  set type (type: string) {
+    if (this.types.indexOf(type) > -1) {
+      this._type = type
+    }
+    // set type
+    this._container.setAttribute('type', this._type)
+    // update icon
+    this._setIconType(this._type)
+  }
+    /**
+     * remove status bar after period defined in timeout
+     */
+  set timeout (timeout) {
+    timeout = parseInt(timeout)
+    if (timeout % 1 !== 0) return
+
+    setTimeout(function () {
+      this._close()
+    }.bind(this), timeout)
+  }
+    /**
+     * toggle between detached and attached mode
+     */
+  set detached (detached: string) {
+    if (detached === null || detached === 'false') {
+      this._container.classList.remove('is-detached')
+    } else {
+      this._container.classList.add('is-detached')
+    }
+  }
+    /**
+     * since classList.toggle with a second param is not supported in IE11 and below
+     */
+  _toggle (el, cls, condition) {
+    if (condition === true) {
+      el.classList.add(cls)
+    } else {
+      el.classList.remove(cls)
+    }
+  }
+}
+
+window.customElements.define('status-bar', StatusBar)

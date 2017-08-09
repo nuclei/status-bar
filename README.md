@@ -1,7 +1,7 @@
 # status-bar
 An easy drop-in status-bar vanilla custom element. No framework dependencies, small footprint.
 
-[![Spec Custom Elements V0](https://img.shields.io/badge/spec-custom%20elements%20v0-F52757.svg?style=flat-square)](https://www.w3.org/TR/custom-elements/)
+[![Spec Custom Elements V1](https://img.shields.io/badge/spec-custom%20elements%20v1-F52757.svg?style=flat-square)](https://www.w3.org/TR/custom-elements/)
 [![Build Status](https://img.shields.io/travis/nuclei/status-bar/master.svg?style=flat-square)](https://travis-ci.org/nuclei/status-bar)
 [![npm](https://img.shields.io/npm/v/status-bar-component.svg?maxAge=2592000&style=flat-square)](https://www.npmjs.com/package/status-bar-component) [![npm](https://img.shields.io/npm/dt/status-bar-component.svg?maxAge=2592000&style=flat-square)](https://www.npmjs.com/package/status-bar-component) [![npm](https://img.shields.io/npm/l/status-bar-component.svg?maxAge=2592000&style=flat-square)](https://github.com/nuclei/status-bar/blob/master/LICENSE)
 

@@ -2,17 +2,17 @@
   "name": "status-bar-component",
   "version": "1.1.2",
   "description": "An easy drop-in status-bar solution as a custom element",
-  "main": "src/status-bar.js",
-  "directories": {
-    "doc": "docs"
-  },
-  "scripts": {
-    "test": "./node_modules/web-component-tester/bin/wct && snazzy 'src/*.js'",
-    "travis": "snazzy 'src/*.js'"
+  "main": "dist/status-bar.js",
+  "config": {
+    "src": "src/status-bar.ts",
+    "moduleName": "StatusBar"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nuclei/status-bar.git"
+    "url": "http://github.com/nuclei/status-bar"
+  },
+  "bugs": {
+    "url": "http://github.com/nuclei/status-bar/issues"
   },
   "keywords": [
     "status-bar",
@@ -23,17 +23,24 @@
   ],
   "author": "Lukas Oppermann",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/nuclei/status-bar/issues"
-  },
-  "homepage": "https://github.com/nuclei/status-bar#readme",
   "devDependencies": {
-    "babel-preset-latest": "^6.16.0",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^6.1.2",
-    "gulp-sourcemaps": "^1.6.0",
-    "snazzy": "^6.0.0",
-    "standard": "^8.6.0",
-    "web-component-tester": "^5.0.0"
+    "@webcomponents/webcomponentsjs": "^1.0.7",
+    "make-template": "^1.0.1",
+    "rollup": "^0.41.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-typescript": "^0.8.1",
+    "rollup-watch": "^3.2.2",
+    "snazzy": "^7.0.0",
+    "standard": "^10.0.2",
+    "standard-readme": "^2.0.2",
+    "typescript": "^2.4.0",
+    "typescript-eslint-parser": "^2.1.0"
+  },
+  "scripts": {
+    "build": "npm test && rollup -c",
+    "build:watch": "npm run build -- -w",
+    "test": "standard src/*.ts --parser typescript-eslint-parser | snazzy && tsc src/*.ts --noEmit --pretty --alwaysStrict --allowJs --noUnusedLocals --target ES5 --lib es6,dom && standard-readme",
+    "demo": "cp -r node_modules/@webcomponents/webcomponentsjs docs/polyfill && cp dist/status-bar.js docs/status-bar.js",
+    "travis": "npm run test"
   }
 }
